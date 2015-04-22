@@ -1,0 +1,1 @@
+this is a simple MEAN app where user creates tasks in his todo list and can delete some of them
