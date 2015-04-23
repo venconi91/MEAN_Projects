@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/venconi91/MEAN_Projects",
   "dependencies": {
-    "express": "^4.12.3"
+    "body-parser": "^1.12.3",
+    "express": "^4.12.3",
+    "mongoose": "^4.0.1"
   }
 }
