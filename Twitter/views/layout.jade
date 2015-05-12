@@ -2,13 +2,40 @@ doctype html
 html(lang="en")
   head
     title= "page title from me "
+    link(rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
+    link(href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cerulean/bootstrap.min.css", rel="stylesheet")
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-resource.js"></script>
     <script src="angular/app.js"></script>
+    <script src="angular/services/authentication.js"></script>
   body(ng-app="TwitterApp", ng-controller="MainController")
-    h1 Jade - node template engine
+    div(class="bs-component")
+      nav(class="navbar navbar-inverse")
+        div(class="container-fluid")
+          div(class="navbar-header")
+            button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2")
+              span(class="sr-only") Toggle navigation
+              span(class="icon-bar")
+              span(class="icon-bar")
+              span(class="icon-bar")
+            a(class="navbar-brand" href="#") Brand
+
+          div(class="collapse navbar-collapse" id="bs-example-navbar-collapse-2")
+            ul(class="nav navbar-nav")
+              li
+                a(href="/#/login") Login
+              li
+                a(href="/#/register") Register
+              li
+                a(href="home") Home
+            ul(class="nav navbar-nav navbar-right")
+              li
+                a(href="signout") Logout
 
     block content
 
-  footer "TwitterApp"
+  footer 
+    h3 Footer
+
+

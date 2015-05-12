@@ -1,0 +1,21 @@
+.container
+  div(class="col-lg-6")
+    div(class="well bs-component")
+      form(class="form-horizontal")
+        fieldset
+          legend Login
+          div(class="form-group")
+            label(for="username" class="col-lg-2 control-label") Username
+            div(class="col-lg-10")
+              input(type="text" class="form-control" id="usernameInput" placeholder="Username" ng-model="user.username")
+          div(class="form-group")
+            label(for="inputPassword" class="col-lg-2 control-label") Password
+            div(class="col-lg-10")
+              input(type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="user.password")
+          div(class="form-group")
+            div(class="col-lg-10 col-lg-offset-2")
+              button(type="submit" class="btn btn-primary" ng-click="login(user)") Login
+              button(type="reset" class="btn btn-default") Reset
+        </fieldset>
+      </form>
+  //div(id="source-button" class="btn btn-primary btn-xs" style="display: none;")&lt; &gt;
