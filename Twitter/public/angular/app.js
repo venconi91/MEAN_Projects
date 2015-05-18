@@ -11,6 +11,8 @@ app.controller('AuthController', ['$scope', '$location', 'authentication', funct
 		authentication.login(user, loginResult)
 	}
 
+	$scope.user = {"username": "venconi","password":"venconi"};
+
 	$scope.register = function(user){
 		authentication.register(user, registerResult)
 	}

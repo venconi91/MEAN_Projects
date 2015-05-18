@@ -23,6 +23,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
+var Tweet = mongoose.model('Tweet');
+var Followers = mongoose.model('Followers');
+var Followings = mongoose.model('Followings');
+
+
+
 
 
 app.get('/info', function(req, res) {
@@ -59,14 +65,34 @@ app.post('/signup', passport.authenticate('signup', {
 }));
 
 app.get('/signout', function(req, res) {
-		req.session.destroy(function(err){
-            res.redirect('/#/login');    
-        });
+	req.session.destroy(function(err){
+        res.redirect('/#/login');    
+    });
 });
 
-app.get('/home', function(req,res){
-    res.render("home");
+app.get('/home',isAuthenticated, function(req,res){
+    // get all users tweets
+    var currentUserId = req.user._id;
+
+    Tweet.find({"author_id" : currentUserId}, function(err,tweets){
+        if (err) {
+            console.log("tweet finding error: " + err)
+        };
+        console.log("tweets:" + JSON.stringify(tweets));
+
+        res.render("home", {"tweets": tweets});
+    })
+    
 });
+
+app.get('/user/:id', function(req,res){
+    var profileId = req.params("id");
+    console.log(profileId);
+    res.send({"user params": profileId});
+})
+// app.get('/wall', function(req,res){
+//     res.render("home");
+// });
 
 app.get('/partials/courses/javascript',function(req,res){
 	console.log(req.params[courseName])
@@ -82,13 +108,11 @@ app.get('/test', isAuthenticated ,function(req,res){
 })
 
 
-var Tweet = mongoose.model('Tweet');
-
 
 app.post('/createTweet', isAuthenticated, function(req,res){
     var tweet = new Tweet()
     tweet.content = req.body.tweetContent;
-    tweet.author_id = req.user._id + "" + Math.random();
+    tweet.author_id = req.user._id;
     console.log("before save" + tweet);
 
     tweet.save(function(err, tweet) {
