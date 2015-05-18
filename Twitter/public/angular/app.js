@@ -37,8 +37,21 @@ app.controller('AuthController', ['$scope', '$location', 'authentication', funct
 	}
 }])
 
-app.controller('HomeController', ['$scope', function ($scope) {
-    $scope.name = "home controller"
+app.controller('HomeController', ['$scope','tweetsService', function ($scope, tweetsService) {
+    $scope.name = "home controller";
+
+    $scope.create = function(tweet){
+    	tweet.name = "nameasfd";
+    	tweetsService.createTweet(tweet,success,error);
+    }
+
+    function success(data){
+    	console.log(data);
+    }
+
+    function error(data){
+    	console.log(data)
+    }
 }])
 
 app.config(function($routeProvider,$locationProvider){

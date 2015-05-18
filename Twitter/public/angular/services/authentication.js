@@ -4,16 +4,17 @@ app.factory('authentication', function ($http, $location, $log) {
         return angular.toJson(obj);
     }
 
-    function register(user, success, error) {
+    function register(user, registerResult) {
         $http({
             method: 'POST',
             url: 'signup',
             data: toJSON(user),
         }).success(function (data) {
             console.log("success service")
-            success(data)
+            registerResult(data)
         }).error(function (data) {
             console.log("errror service")
+            registerResult(data);
             $log.warn(data)
         })
     }

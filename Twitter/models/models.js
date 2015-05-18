@@ -8,3 +8,11 @@ var userSchema = new mongoose.Schema({
 })
 
 mongoose.model('User', userSchema);
+
+var tweetSchema = new mongoose.Schema({
+	content: String,
+	author_id: String,
+	created_at: { type: Date, default: Date.now}
+})
+
+mongoose.model('Tweet', tweetSchema);

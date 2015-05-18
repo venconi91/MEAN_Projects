@@ -74,9 +74,29 @@ app.get('/partials/courses/javascript',function(req,res){
 	res.render('coursesJade')
 })
 
-app.get('/test',function(req,res){
-	res.render('test')
+app.get('/test', isAuthenticated ,function(req,res){
+    console.log("req.user: " + JSON.stringify(req.user));
 
+    res.render('test')
+
+})
+
+
+var Tweet = mongoose.model('Tweet');
+
+
+app.post('/createTweet', isAuthenticated, function(req,res){
+    var tweet = new Tweet()
+    tweet.content = req.body.tweetContent;
+    tweet.author_id = req.user._id + "" + Math.random();
+    console.log("before save" + tweet);
+
+    tweet.save(function(err, tweet) {
+            if (err){
+                return res.send(500, err);
+            }
+            return res.json(tweet);
+        });
 })
 
 var initPassport = require('./config/passport.js');
@@ -88,6 +108,14 @@ app.get("/", function(req,res){
 })
 
 
+
+function isAuthenticated(req,res,next){
+    if (req.isAuthenticated) {
+        return next();
+    };
+
+    res.render('/#/login');
+}
 
 
 app.listen(port);
