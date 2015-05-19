@@ -11,19 +11,23 @@
 
 div(class="container")
   div(class="row")
-    div(class="col-md-7")
+    div(class="col-md-4")
       div(class="well bs-component")
         form(class="form-horizontal")
           fieldset
             legend Create tweet
             div(class="form-group")
-              label(for="username" class="col-lg-1 control-label") Tweet
-              div(class="col-lg-10")
+              label(for="username" class="col-md-2 control-label") Tweet
+              div(class="col-md-10")
                 textarea(class="form-control" rows = 3 ng-model="tweet.tweetContent")
             div(class="form-group")
               div(class="col-lg-10 col-lg-offset-1")
                 button(type="submit" class="btn btn-primary" ng-click="create(tweet)") Tweet
                 button(type="reset" class="btn btn-default") Reset
+      div(class="row")
+        div(class="well") trends
+    div(class="col-md-8")
+      div(class="well") tweets   
   //div(id="source-button" class="btn btn-primary btn-xs" style="display: none;")&lt; &gt;
   div(class="row")
     div(class="col-md-7")

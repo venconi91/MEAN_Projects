@@ -36,6 +36,7 @@ app.get('/info', function(req, res) {
 });
 
 app.get('/success', function(req, res){
+    // add user to followers and followings
     res.send({state: 'success', user: req.user ? req.user.username : null});
 });
 
@@ -74,11 +75,11 @@ app.get('/home',isAuthenticated, function(req,res){
     // get all users tweets
     var currentUserId = req.user._id;
 
-    Tweet.find({"author_id" : currentUserId}, function(err,tweets){
+    Tweet.find({"author_id" : currentUserId}, function(err, tweets){
         if (err) {
             console.log("tweet finding error: " + err)
         };
-        console.log("tweets:" + JSON.stringify(tweets));
+        //console.log("tweets:" + JSON.stringify(tweets));
 
         res.render("home", {"tweets": tweets});
     })
@@ -110,11 +111,15 @@ app.get('/test', isAuthenticated ,function(req,res){
 
 
 app.post('/createTweet', isAuthenticated, function(req,res){
-    var tweet = new Tweet()
-    tweet.content = req.body.tweetContent;
+    var tweet = new Tweet();
+    var content = req.body.tweetContent;
+    tweet.content = content;
+    var hashTags = content.match(/#[a-zA-Z]+/g);
     tweet.author_id = req.user._id;
+    if (hashTags != null) {
+        tweet.hashTags = hashTags;
+    };
     console.log("before save" + tweet);
-
     tweet.save(function(err, tweet) {
             if (err){
                 return res.send(500, err);

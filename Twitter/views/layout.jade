@@ -24,19 +24,22 @@ html(lang="en")
 
           div(class="collapse navbar-collapse" id="bs-example-navbar-collapse-2")
             ul(class="nav navbar-nav")
-              li
+              li(ng-hide="isAuthenticated")
                 a(href="/#/login") Login
-              li
+              li(ng-hide="isAuthenticated")
                 a(href="/#/register") Register
-              li
-                a(href="home") Home
+              li(ng-show="isAuthenticated")
+                a(href="/#/home") Home
             ul(class="nav navbar-nav navbar-right")
-              li
+              li(ng-show="isAuthenticated")
                 a(href="signout") Logout
+            form(class="navbar-form navbar-right" role="search" ng-show="isAuthenticated")
+              div(class="form-group")
+                input(type="text" class="form-control" placeholder="#hashtag or content" ng-model="search.text")
+              button(type="submit" class="btn btn-success" ng-click="search(search)") Submit
 
     block content
 
   footer 
     h3 Footer
-
 

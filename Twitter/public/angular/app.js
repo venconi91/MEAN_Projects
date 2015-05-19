@@ -1,10 +1,12 @@
-var app = angular.module('TwitterApp', ['ngRoute'])
+var app = angular.module('TwitterApp', ['ngRoute']).run(function($rootScope){
+	$rootScope.isAuthenticated = false;
+})
 
 app.controller('MainController', ['$scope', function ($scope) {
     $scope.name = "testing controller"
 }])
 
-app.controller('AuthController', ['$scope', '$location', 'authentication', function ($scope, $location, authentication) {
+app.controller('AuthController', ['$scope', '$location', 'authentication','$rootScope', function ($scope, $location, authentication,$rootScope) {
 	$scope.controller = "register controller";
 
 	$scope.login = function(user){
@@ -18,7 +20,7 @@ app.controller('AuthController', ['$scope', '$location', 'authentication', funct
 	}
 
 	$scope.logout = function(){
-
+		$rootScope.isAuthenticated = false;
 	}
 
 	registerResult = function(data){
@@ -26,6 +28,7 @@ app.controller('AuthController', ['$scope', '$location', 'authentication', funct
 		if (data.state === "failure") {
 			$location.path("register");
 		} else{
+			$rootScope.isAuthenticated = true;
 			$location.path("home");
 		}
 	}
@@ -34,6 +37,7 @@ app.controller('AuthController', ['$scope', '$location', 'authentication', funct
 		if (data.state === "failure") {
 			$location.path("login");
 		} else{
+			$rootScope.isAuthenticated = true;
 			$location.path("home");
 		}
 	}
