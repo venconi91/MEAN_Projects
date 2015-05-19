@@ -2,8 +2,20 @@ var app = angular.module('TwitterApp', ['ngRoute']).run(function($rootScope){
 	$rootScope.isAuthenticated = false;
 })
 
-app.controller('MainController', ['$scope', function ($scope) {
+app.controller('MainController', ['$scope','follow', function ($scope, follow) {
     $scope.name = "testing controller"
+
+    $scope.follow = function(userId){
+    	follow.follow(userId, followSuccess, followError);
+    }
+
+    followSuccess = function(successData){
+    	console.log(successData)
+    }
+
+    followError = function(errorData){
+    	console.log(errorData)
+    }
 }])
 
 app.controller('AuthController', ['$scope', '$location', 'authentication','$rootScope', function ($scope, $location, authentication,$rootScope) {
@@ -13,6 +25,7 @@ app.controller('AuthController', ['$scope', '$location', 'authentication','$root
 		authentication.login(user, loginResult)
 	}
 
+	// TODO remove 
 	$scope.user = {"username": "venconi","password":"venconi"};
 
 	$scope.register = function(user){
@@ -74,10 +87,10 @@ app.config(function($routeProvider,$locationProvider){
 			templateUrl: 'register',
 			controller: 'AuthController'
 		})
-		// .when('/logout', {
-		// 	templateUrl: 'signout',
-		// 	controller: 'AuthController'
-		// })
+		.when('/users', {
+			templateUrl: 'users',
+			controller: 'MainController'
+		})
 		.when('/home', {
 			templateUrl: 'home',
 			controller: 'HomeController'

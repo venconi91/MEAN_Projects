@@ -1,0 +1,9 @@
+div(class="container")
+	div(class="row")
+		div(class="col-md-8")
+			each user in users
+				div(class="row")
+					div(class="col-md-4") IMG
+					div(class="col-md-8")
+						button(class="btn btn-danger" ng-click="follow('#{user._id}')") Follow 
+						div(class="well well-lg") #{user.username}

@@ -10,6 +10,7 @@ html(lang="en")
     <script src="angular/app.js"></script>
     <script src="angular/services/authentication.js"></script>
     <script src="angular/services/tweetsService.js"></script>
+    <script src="angular/services/follow.js"></script>
   body(ng-app="TwitterApp", ng-controller="MainController")
     div(class="bs-component")
       nav(class="navbar navbar-inverse")
@@ -30,6 +31,8 @@ html(lang="en")
                 a(href="/#/register") Register
               li(ng-show="isAuthenticated")
                 a(href="/#/home") Home
+              li(ng-show="isAuthenticated")
+                a(href="/#/users") Users
             ul(class="nav navbar-nav navbar-right")
               li(ng-show="isAuthenticated")
                 a(href="signout") Logout

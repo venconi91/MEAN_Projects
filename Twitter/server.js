@@ -26,7 +26,7 @@ app.use(passport.session());
 var Tweet = mongoose.model('Tweet');
 var Followers = mongoose.model('Followers');
 var Followings = mongoose.model('Followings');
-
+var User = mongoose.model('User');
 
 
 
@@ -86,15 +86,6 @@ app.get('/home',isAuthenticated, function(req,res){
     
 });
 
-app.get('/user/:id', function(req,res){
-    var profileId = req.params("id");
-    console.log(profileId);
-    res.send({"user params": profileId});
-})
-// app.get('/wall', function(req,res){
-//     res.render("home");
-// });
-
 app.get('/partials/courses/javascript',function(req,res){
 	console.log(req.params[courseName])
 	console.log(req.params.courseName)
@@ -107,8 +98,6 @@ app.get('/test', isAuthenticated ,function(req,res){
     res.render('test')
 
 })
-
-
 
 app.post('/createTweet', isAuthenticated, function(req,res){
     var tweet = new Tweet();
@@ -126,6 +115,74 @@ app.post('/createTweet', isAuthenticated, function(req,res){
             }
             return res.json(tweet);
         });
+})
+
+app.get('/users',function(req,res){
+    User.find({}, function(err, users){
+        if (err) {
+            console.log("users finding error: " + err)
+        };
+        //console.log("tweets:" + JSON.stringify(tweets));
+
+        res.render("users", {"users": users});
+    })
+})
+
+
+app.post('/follow', isAuthenticated, function(req,res){
+    var userIdToFollow = req.body.userId;
+    //console.log("server post follow: " + userIdToFollow);
+    var senderId = req.user._id;
+    Followings.findOne({"user_id": senderId}, function(err,data){
+        if (err) {
+            console.log("error" + err)
+            res.status(404).send('cannot find followings');
+        };
+        if (data === null) {
+            var following = new Followings();
+            following.user_id = senderId;
+            // find other with other id and push
+            User.findOne({"_id": userIdToFollow},function(err,userToFollowData){
+                if (err) {
+                    console.log("cannot find user to follow by id")
+                };
+                following.followings.push(userToFollowData);
+            })
+
+            following.save(function(err, followingData) {
+                if (err){
+                    return res.send(500, err);
+                }
+                console.log("createdAll"+following)
+                return res.json(following);
+            });
+        } else{
+            var followingUser = data;
+            //console.log("finded user: " + followingUser);
+            User.findOne({"_id": userIdToFollow},function(err,userToFollow){
+                if (err) {
+                    console.log("cannot find user to follow by id")
+                };
+                //console.log("user to follow" + userToFollow);
+                followingUser.followings.push(userToFollow);
+                followingUser.save(function(err){
+                    if (err) {
+                        console.log("saving error:"+ err)
+                    };
+                })
+            })
+
+            res.send(followingUser);
+        }
+    })
+})
+
+
+
+app.get('/user/:id', function(req,res){
+    var profileId = req.params("id");
+    console.log(profileId);
+    res.send({"user params": profileId});
 })
 
 var initPassport = require('./config/passport.js');

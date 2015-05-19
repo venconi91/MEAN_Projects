@@ -9,9 +9,11 @@ var tweetSchema = new mongoose.Schema({
 })
 
 var userSchema = new mongoose.Schema({
-	username: {type: String, unique: true},
+	username: {type: String, unique: false},
 	password: String,
 	fullName: String,
+	avatarUrl: String,
+	tweets: [tweetSchema],
 	created_at: { type: Date, default: Date.now}
 })
 
