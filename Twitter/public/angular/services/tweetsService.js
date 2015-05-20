@@ -16,8 +16,20 @@ app.factory('tweetsService', function ($http, $location, $log) {
         })
     }
 
+    // function viewTweetsByUserId(userId, success, error) {
+    //     $http({
+    //         method: 'GET',
+    //         url: 'user/tweets' + userId,
+    //         data: toJSON(tweet),
+    //     }).success(function (data) {
+    //         success(data)       
+    //     }).error(function (data) {
+    //         error(data);
+    //     })
+    // }
+
     return {
         createTweet: createTweet
-        //register: register
+        //viewTweetsByUserId: viewTweetsByUserId
     }
 });

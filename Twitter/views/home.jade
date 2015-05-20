@@ -30,10 +30,13 @@ div(class="container")
                 button(type="reset" class="btn btn-default") Reset
       div(class="row")
         div(class="well") trends
-    div(class="col-md-8")
-      div(class="well") tweets   
+    div(class="col-md-7 col-md-offset-1")
+      div(class="row")
+        div(class="well") Followings
+        each following in userFollowers.followings
+          div(class="row")
+            div(class="well well-lg") #{following.username}
+              button(class="btn btn-success btn-btn-small pull-right" ng-click="viewUserTweets('#{following._id}')") view tweets
+      
   //div(id="source-button" class="btn btn-primary btn-xs" style="display: none;")&lt; &gt;
-  div(class="row")
-    div(class="col-md-7")
-      each tweet in tweets
-        div(class="well well-lg") #{tweet.content}
+  

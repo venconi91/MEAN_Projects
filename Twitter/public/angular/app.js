@@ -56,11 +56,10 @@ app.controller('AuthController', ['$scope', '$location', 'authentication','$root
 	}
 }])
 
-app.controller('HomeController', ['$scope','tweetsService', function ($scope, tweetsService) {
+app.controller('HomeController', ['$scope', '$location','tweetsService', function ($scope,$location, tweetsService) {
     $scope.name = "home controller";
 
     $scope.create = function(tweet){
-    	tweet.name = "nameasfd";
     	tweetsService.createTweet(tweet,success,error);
     }
 
@@ -70,6 +69,11 @@ app.controller('HomeController', ['$scope','tweetsService', function ($scope, tw
 
     function error(data){
     	console.log(data)
+    }
+
+    $scope.viewUserTweets = function(userId){
+    	console.log(userId);
+    	// todo service
     }
 }])
 
@@ -89,6 +93,10 @@ app.config(function($routeProvider,$locationProvider){
 		})
 		.when('/users', {
 			templateUrl: 'users',
+			controller: 'MainController'
+		})
+		.when('/myTweets', {
+			templateUrl: 'myTweets',
 			controller: 'MainController'
 		})
 		.when('/home', {

@@ -75,13 +75,19 @@ app.get('/home',isAuthenticated, function(req,res){
     // get all users tweets
     var currentUserId = req.user._id;
 
-    Tweet.find({"author_id" : currentUserId}, function(err, tweets){
+    
+    
+    var currentUserId = req.user._id;
+    Followings.findOne({"user_id": currentUserId}, function(err, userFollowers){
         if (err) {
-            console.log("tweet finding error: " + err)
+            console.log(err);
         };
-        //console.log("tweets:" + JSON.stringify(tweets));
+        console.log("whole object" + userFollowers)
+        // if (userFollowers.followings) {
+        //     //console.log(userFollowers.followings);
+        // };
 
-        res.render("home", {"tweets": tweets});
+        res.render("home", {"userFollowers": userFollowers});        
     })
     
 });
@@ -108,13 +114,32 @@ app.post('/createTweet', isAuthenticated, function(req,res){
     if (hashTags != null) {
         tweet.hashTags = hashTags;
     };
-    console.log("before save" + tweet);
-    tweet.save(function(err, tweet) {
+    
+    tweet.save(function(err, tweetData) {
             if (err){
-                return res.send(500, err);
+                return res.send(404, err);
             }
-            return res.json(tweet);
-        });
+    });
+
+     var currentUserId = req.user._id;
+     User.findOne({"_id": currentUserId},function(err,currentUserFromDb){
+        if (err) {
+             console.log("finding user error: " + err)
+        };
+
+        currentUserFromDb.tweets.push(tweet);
+        currentUserFromDb.save(function(err){
+            if (err) {
+                console.log("saving error: "+ err)
+            };
+
+            return res.json(tweet)
+        })
+    })
+})
+
+app.get('/tweets/user/:id',function(req,res){
+    console.log("server get id: " + req.param("id"))
 })
 
 app.get('/users',function(req,res){
@@ -122,7 +147,6 @@ app.get('/users',function(req,res){
         if (err) {
             console.log("users finding error: " + err)
         };
-        //console.log("tweets:" + JSON.stringify(tweets));
 
         res.render("users", {"users": users});
     })
@@ -177,7 +201,17 @@ app.post('/follow', isAuthenticated, function(req,res){
     })
 })
 
+app.get('/myTweets', isAuthenticated, function(req,res){
+    var currentUserId = req.user._id;
+    Tweet.find({"author_id" : currentUserId}, function(err, tweets){
+        if (err) {
+            console.log("tweet finding error: " + err)
+        };
+        //console.log("tweets:" + JSON.stringify(tweets));
 
+        res.render("myTweets", {"tweets": tweets});
+    })
+})
 
 app.get('/user/:id', function(req,res){
     var profileId = req.params("id");
