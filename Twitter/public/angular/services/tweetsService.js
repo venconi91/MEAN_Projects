@@ -16,20 +16,20 @@ app.factory('tweetsService', function ($http, $location, $log) {
         })
     }
 
-    // function viewTweetsByUserId(userId, success, error) {
-    //     $http({
-    //         method: 'GET',
-    //         url: 'user/tweets' + userId,
-    //         data: toJSON(tweet),
-    //     }).success(function (data) {
-    //         success(data)       
-    //     }).error(function (data) {
-    //         error(data);
-    //     })
-    // }
+    function viewTweetsByUserId(userId, success, error) {
+        $http({
+            method: 'GET',
+            url: 'tweets/user/' + userId,
+            data: toJSON({"userId": userId}),
+        }).success(function (data) {
+            success(data)       
+        }).error(function (data) {
+            error(data);
+        })
+    }
 
     return {
-        createTweet: createTweet
-        //viewTweetsByUserId: viewTweetsByUserId
+        createTweet: createTweet,
+        viewTweetsByUserId: viewTweetsByUserId
     }
 });

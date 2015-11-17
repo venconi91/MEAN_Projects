@@ -139,7 +139,15 @@ app.post('/createTweet', isAuthenticated, function(req,res){
 })
 
 app.get('/tweets/user/:id',function(req,res){
-    console.log("server get id: " + req.param("id"))
+    var userId = req.param("id");
+    
+    Tweet.find({"author_id": userId}, function(err, tweets){
+        if (err) {
+            console.log(err)
+        };
+
+        res.json(tweets)
+    })
 })
 
 app.get('/users',function(req,res){

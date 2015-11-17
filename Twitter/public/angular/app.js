@@ -73,7 +73,16 @@ app.controller('HomeController', ['$scope', '$location','tweetsService', functio
 
     $scope.viewUserTweets = function(userId){
     	console.log(userId);
-    	// todo service
+    	$location.path()
+    	tweetsService.viewTweetsByUserId(userId, successView, errorView);
+    }
+
+    function successView(data){
+    	console.log(data);
+    }
+
+    function errorView(data){
+    	console.log(data)
     }
 }])
 
@@ -101,6 +110,10 @@ app.config(function($routeProvider,$locationProvider){
 		})
 		.when('/home', {
 			templateUrl: 'home',
+			controller: 'HomeController'
+		})
+		.when('/tweets/user/:id', {
+			templateUrl: 'tweets/user',
 			controller: 'HomeController'
 		})
 });
