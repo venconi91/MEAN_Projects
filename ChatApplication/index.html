@@ -15,6 +15,7 @@
   </head>
   <body>
     <ul id="messages"></ul>
+    <p id="typing"></p>
     <form action="">
       <label for="author">author</label>
       <input id="author" autocomplete="off" />
@@ -39,8 +40,20 @@
       return false;
     })
 
+    $("#message").keypress(function( event ) {
+      if ( event.which !== 13 ) {
+        socket.emit("typing", $("#author").val())
+      }
+    })
+
     socket.on("chat message", function(obj){
       $('#messages').append($('<li>').text(obj.author + " says: " + obj.messageText));
     });
+
+    socket.on("typing", function(author){
+      console.log(author + " is typing")
+      $('#typing').text(author + " is typing").fadeIn(100).fadeOut(100);//.delay(10).fadeOut();
+      //$('#typing').text("");
+    })
   </script>
 </html>

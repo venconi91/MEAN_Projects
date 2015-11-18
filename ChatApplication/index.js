@@ -18,6 +18,12 @@ io.on("connection",function(socket){
 	socket.on("chat message", function(obj){
 		console.log(socket);
 		//socket.broadcast.emit("chat message", { messageText: obj.messageText, author: obj.author })
-		io.emit("chat message", { messageText: obj.messageText, author: obj.author })
+		io.emit("chat message", { messageText: obj.messageText, author: obj.author });
+		//socket.broadcast.emit("typing")
+	})
+
+	socket.on("typing", function(author){
+
+		socket.broadcast.emit("typing", author)
 	})
 })
