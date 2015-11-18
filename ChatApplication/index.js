@@ -15,8 +15,9 @@ http.listen(port, function(){
 io.on("connection",function(socket){
 	console.log("user connected");
 	
-	socket.on("chat message", function(msg){
-		console.log(msg)
-		io.emit("chat message", msg)
+	socket.on("chat message", function(obj){
+		console.log(socket);
+		//socket.broadcast.emit("chat message", { messageText: obj.messageText, author: obj.author })
+		io.emit("chat message", { messageText: obj.messageText, author: obj.author })
 	})
 })
